@@ -7,6 +7,7 @@
 	let currencyFrom: string = "USD";
 	let currencyTo: string = "RUB";
 	let exchangeRate: number = 0;
+	let lastModified = true;
 
 	// Функция для загрузки текущего курса
 	const loadExchangeRate = async () => {
@@ -14,6 +15,11 @@
 			const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${currencyFrom}`);
 			const data = await response.json();
 			exchangeRate = data.rates[currencyTo];
+			if (lastModified === true) {
+				calculateConversionToFrom();
+			} else {
+				calculateConversionFromTo();
+			}
 		} catch (error) {
 			console.error("Ошибка загрузки курса валют:", error);
 		}
@@ -22,10 +28,12 @@
 	// Функции для пересчета конвертации
 	const calculateConversionToFrom = () => {
 		amountTo = Math.round(amountFrom * exchangeRate * 100) / 100;
+		lastModified = true;
 	};
 
 	const calculateConversionFromTo = () => {
 		amountFrom = Math.round((amountTo / exchangeRate) * 100) / 100;
+		lastModified = false;
 	};
 
 	onMount(loadExchangeRate);
