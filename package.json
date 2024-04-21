@@ -1,10 +1,13 @@
 {
-  "name": "vite-project",
+  "name": "lyutik-svelte",
+  "homepage": "https://Lyutik13.github.io/testForGreenBankLyutikov/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
